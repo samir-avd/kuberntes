@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: application-nginx
+  name: application-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: application-nginx
+  template:
+    metadata:
+      labels:
+        app: application-nginx
+    spec:
+      containers:
+      - image: nginx
+        name: my-nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+...
